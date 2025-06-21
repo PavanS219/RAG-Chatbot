@@ -22,8 +22,8 @@ def setup_fraud_database(pdf_path):
     print("Setting up fraud scenarios database from PDF...")
     
     # Get Qdrant Cloud credentials from environment variables
-    qdrant_url = os.getenv("QDRANT_URL")
-    qdrant_api_key = os.getenv("QDRANT_API_KEY")
+    qdrant_url = st.secrets("QDRANT_URL")
+    qdrant_api_key = st.secrets("QDRANT_API_KEY")
     
     if not qdrant_url or not qdrant_api_key:
         print("❌ Error: Qdrant Cloud credentials not found!")
@@ -119,7 +119,7 @@ def main():
     print("=" * 50)
     
     # Check for environment variables first
-    if not os.getenv("QDRANT_URL") or not os.getenv("QDRANT_API_KEY"):
+    if not st.secrets("QDRANT_URL") or not st.secrets("QDRANT_API_KEY"):
         print("⚠️  Environment variables not set!")
         print("Please set:")
         print("export QDRANT_URL='your-qdrant-cloud-url'")
