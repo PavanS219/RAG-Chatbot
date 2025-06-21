@@ -369,13 +369,27 @@ def main():
             "💰 I was offered a work-from-home job that seems too good to be true"
         ]
         
-        for example in examples:
-            if st.button(example, use_container_width=True):
-                # Add to chat and switch to chat tab
+        for i, example in enumerate(examples):
+            if st.button(example, key=f"example_{i}", use_container_width=True):
+                # Initialize messages if not exists
                 if "messages" not in st.session_state:
                     st.session_state.messages = []
                 
+                # Add user message
                 st.session_state.messages.append({"role": "user", "content": example})
+                
+                # Generate AI response immediately
+                try:
+                    with st.spinner("🔍 Analyzing scenario..."):
+                        response = query_engine.query(example)
+                        st.session_state.messages.append({"role": "assistant", "content": str(response)})
+                    st.success("✅ Response generated! Check the Chat tab.")
+                except Exception as e:
+                    error_msg = f"❌ Sorry, I encountered an error: {str(e)}"
+                    st.session_state.messages.append({"role": "assistant", "content": error_msg})
+                    st.error("Failed to generate response.")
+                
+                # Trigger rerun to show the conversation
                 st.rerun()
 
 if __name__ == "__main__":
