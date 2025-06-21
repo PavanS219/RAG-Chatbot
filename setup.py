@@ -127,7 +127,7 @@ def main():
         print()
     
     # Get PDF path from user
-    pdf_path = "data/fraud_scenarios.pdf"
+    pdf_path = "fraud_scenarios.pdf"
     
     
     
