@@ -1,0 +1,13 @@
+streamlit
+qdrant-client
+llama-index
+llama-index-vector-stores-qdrant
+llama-index-embeddings-huggingface
+llama-index-llms-openai
+openai
+sentence-transformers
+torch
+transformers
+huggingface-hub
+numpy
+pandas
