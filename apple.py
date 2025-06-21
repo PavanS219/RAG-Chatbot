@@ -24,41 +24,227 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better UI
+# Custom CSS for better UI with animations
 st.markdown("""
 <style>
+    /* Animated background */
+    .stApp {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
+    
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Animated header */
     .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         padding: 2rem;
-        border-radius: 10px;
+        border-radius: 20px;
         color: white;
         text-align: center;
         margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        animation: headerPulse 3s ease-in-out infinite alternate;
+        position: relative;
+        overflow: hidden;
     }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: shimmer 3s linear infinite;
+    }
+    
+    @keyframes headerPulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.02); }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    /* Enhanced metric cards */
     .metric-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
         padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
         border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
     }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    /* Chat container with glass effect */
     .chat-container {
-        background: #f8f9fa;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 15px;
         margin: 1rem 0;
+        border: 1px solid rgba(255,255,255,0.2);
     }
+    
+    /* Animated buttons */
     .stButton > button {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         color: white;
         border: none;
-        border-radius: 20px;
-        padding: 0.5rem 2rem;
+        border-radius: 25px;
+        padding: 0.7rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        background: linear-gradient(45deg, #764ba2 0%, #f093fb 50%, #667eea 100%);
+    }
+    
+    .stButton > button:active {
+        transform: translateY(0px);
+    }
+    
+    /* Sidebar styling */
+    .css-1d391kg {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Tab styling */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 0.5rem;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border-radius: 8px;
+        color: white;
         font-weight: 600;
     }
-    .sidebar .stSelectbox > div > div {
-        background-color: #f0f2f6;
+    
+    .stTabs [aria-selected="true"] {
+        background: rgba(255, 255, 255, 0.2);
     }
+    
+    /* Floating animation for icons */
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    /* Pulse animation for status indicators */
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+    
+    /* Progress bar animation */
+    .stProgress .st-bo {
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        animation: progressGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes progressGlow {
+        0%, 100% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.5); }
+        50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+    }
+    
+    /* Chat message animations */
+    .stChatMessage {
+        animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from { 
+            opacity: 0; 
+            transform: translateX(-20px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateX(0); 
+        }
+    }
+    
+    /* File upload area styling */
+    .stFileUploader {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 2px dashed rgba(255,255,255,0.3);
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .stFileUploader:hover {
+        border-color: rgba(255,255,255,0.6);
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    /* Loading spinner enhancement */
+    .stSpinner {
+        color: #667eea !important;
+    }
+    
+    /* Success/Error message styling */
+    .stSuccess {
+        background: rgba(35, 213, 171, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    .stError {
+        background: rgba(231, 60, 126, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        animation: shake 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    
 </style>
 """, unsafe_allow_html=True)
 
@@ -206,12 +392,12 @@ def init_query_engine(_client, collection_name):
 # ================================
 
 def main():
-    # Header with gradient background
+    # Header with gradient background and animations
     st.markdown("""
     <div class="main-header">
-        <h1>🛡️ Fraud Guardian AI</h1>
+        <h1 class="floating">🛡️ Fraud Guardian AI</h1>
         <p style="font-size: 1.2em; margin-top: 10px;">Your Intelligent Fraud Prevention Assistant</p>
-        <p style="opacity: 0.9;">Powered by Mistral AI • Upload PDF or ask about fraud scenarios!</p>
+        <p style="opacity: 0.9;">✨ Powered by Mistral AI • Upload PDF or ask about fraud scenarios! ✨</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -232,7 +418,7 @@ def main():
         collection_names = [col.name for col in collections.collections]
         
         if collection_name in collection_names:
-            st.success("✅ Database Online")
+            st.markdown('<div class="pulse">✅ Database Online</div>', unsafe_allow_html=True)
             try:
                 collection_info = client.get_collection(collection_name)
                 col1, col2 = st.columns(2)
@@ -305,9 +491,17 @@ def main():
     # Check database status
     if collection_name not in collection_names:
         st.markdown("""
-        <div style="text-align: center; padding: 3rem;">
-            <h3>🚀 Getting Started</h3>
-            <p>Please upload a PDF document using the sidebar to begin!</p>
+        <div style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.1); 
+                    backdrop-filter: blur(10px); border-radius: 20px; margin: 2rem 0;">
+            <div class="floating">
+                <h3>🚀 Getting Started</h3>
+                <p style="font-size: 1.1em; margin-top: 1rem;">
+                    Upload a PDF document using the sidebar to begin your fraud prevention journey!
+                </p>
+                <div style="margin-top: 2rem;">
+                    <span style="font-size: 3em; animation: pulse 2s infinite;">📄</span>
+                </div>
+            </div>
         </div>
         """, unsafe_allow_html=True)
         return
